@@ -14,29 +14,29 @@ import EditIcon from '@mui/icons-material/Edit'
 // #endregion -----------( ICONS )-------------
 
 
-import { useNote } from '../middleware/contextHooks';
+import { useBlog } from '../middleware/contextHooks';
 
 export default function NoteDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
 
     const {
-      Notes, currentNote, getNoteById, toasts, 
-      clearToasts, deleteNote, updateNote, getNotes
-    } = useNote();
+      blogs, currentBlog, getBlogById, toasts, 
+      clearToasts, deleteBlog, updateBlog, getBlogs
+    } = useBlog();
     const [edit, setEdit] = useState(false);
-    const [Note, setNote] = useState(null);
+    const [blog, setBlog] = useState(null);
     const [temp, setTemp] = useState(null);
 
     useEffect(() => {
-        if(!Notes) {
-            getNotes();
-        } else if(!currentNote || currentNote?._id !== id) {
-            getNoteById(id);
+        if(!blogs) {
+            getBlogs();
+        } else if(!currentBlog || currentBlog?._id !== id) {
+            getBlogById(id);
         }
 
-        if(currentNote?._id === id) {
-            setNote(currentNote);
+        if(currentBlog?._id === id) {
+            setBlog(currentBlog);
         }
         
         if(toasts){
@@ -44,29 +44,29 @@ export default function NoteDetail() {
                 toast(ele.message, {type: ele.type})
             });
         }
-    } , [currentNote, id, toasts, clearToasts, getNoteById, Notes, getNotes]);
+    } , [currentBlog, id, toasts, clearToasts, getBlogById, blogs, getBlogs]);
 
     
 
     const handleEdit = () => {
         setEdit(true);
-        setTemp(Note);
+        setTemp(blog);
     }
 
     const handleCancel = () => {
         setEdit(false);
-        setNote(temp);
+        setBlog(temp);
     }
 
     const handleUpdate = () => {
-        updateNote(Note);
+        updateBlog(blog);
         setEdit(false);
         //setTemp(null)
     }
 
     const handleDelete = () => {
-        deleteNote(Note._id);
-        navigate('/Notes');
+        deleteBlog(blog._id);
+        navigate('/blogs');
         
     }
 
@@ -75,7 +75,7 @@ export default function NoteDetail() {
         return (
             <Stack spacing={2}>
                 <Stack spacing={2} direction='row'>
-                    <TextField label='Title' value={Note?.content} disabled sx={{flexGrow: 1}}/>
+                    <TextField label='Title' value={blog?.content} disabled sx={{flexGrow: 1}}/>
                     <IconButton onClick={handleEdit}>
                         <EditIcon />
                     </IconButton>
@@ -83,7 +83,7 @@ export default function NoteDetail() {
                         <DeleteForeverIcon />
                     </IconButton>
                 </Stack>
-                <TextField label='Content' value={Note?.content} disabled multiline/>
+                <TextField label='Content' value={blog?.content} disabled multiline/>
             </Stack>
         )
     }
@@ -96,12 +96,12 @@ export default function NoteDetail() {
                         ?   displayDisabled()
                         :   <Stack spacing={2}>
                                 <TextField
-                                    label='Title' name='title' value={Note?.title} 
-                                    onChange={(e) => setNote({...Note, title: e.target.value})}
+                                    label='Title' name='title' value={blog?.title} 
+                                    onChange={(e) => setBlog({...blog, title: e.target.value})}
                                 />
                                 <TextField
-                                    label='Content' name='content' value={Note?.content} 
-                                    onChange={(e) => setNote({...Note, content: e.target.value})}
+                                    label='Content' name='content' value={blog?.content} 
+                                    onChange={(e) => setBlog({...blog, content: e.target.value})}
                                     multiline minRows={5} maxRows={20}
                                 />
 

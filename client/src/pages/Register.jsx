@@ -31,7 +31,7 @@ export default function Register() {
     })
 
     useEffect(() => {
-        if(isAuthenticated) navigate('/Notes')
+        if(isAuthenticated) navigate('/blogs')
 
         if(toasts){
             toasts.forEach(ele => {

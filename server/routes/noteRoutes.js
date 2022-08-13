@@ -3,21 +3,21 @@ const router = express.Router()
 const auth = require('../middleware/authMiddleware');
 
 const {
-    getNotes,
-    createNote,
-    updateNote,
-    deleteNote,
-    getNoteById
-} = require('../controllers/NoteController')
+    getBlogs,
+    createBlog,
+    updateBlog,
+    deleteBlog,
+    getBlogById
+} = require('../controllers/noteController')
 
-router.get('/', [auth], getNotes)
+router.get('/', [auth], getBlogs)
 
-router.post('/', [auth], createNote)
+router.post('/', [auth], createBlog)
 
-router.put('/:id', [auth], updateNote);
+router.put('/:id', [auth], updateBlog);
 
-router.delete('/:id', [auth], deleteNote)
+router.delete('/:id', [auth], deleteBlog)
 
-router.get('/:id', [auth], getNoteById)
+router.get('/:id', [auth], getBlogById)
 
 module.exports = router;

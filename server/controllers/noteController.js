@@ -1,74 +1,74 @@
-const Note = require('../models/Note');
+const Blog = require('../models/Blog');
 const colors = require('colors');
 
 
-// @desc    Get all Notes by user id
-// @route   '/api/Notes
+// @desc    Get all blogs by user id
+// @route   '/api/blogs
 // @access  Private
-const getNotes = async (req, res) => {
+const getBlogs = async (req, res) => {
     try {
-        const Notes = await Note.find({ user: req.user.id });
-        res.json(Notes);
+        const blogs = await Blog.find({ user: req.user.id });
+        res.json(blogs);
     } catch (err) {
         console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
         res.status(500).send('Server Error');
     }
 }
 
-const getNoteById = async (req, res) => {
+const getBlogById = async (req, res) => {
     try {
-        const Note = await Note.findOne({ _id: req.params.id, user: req.user.id });
+        const blog = await Blog.findOne({ _id: req.params.id, user: req.user.id });
 
-        if(!Note) return res.status(404).json([
+        if(!blog) return res.status(404).json([
             {
-                message: 'Note not found',
+                message: 'Blog not found',
                 type: 'error'
             }
         ])
-        res.json(Note);
+        res.json(blog);
     } catch (err) {
         console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
         res.status(500).send('Server Error');
     }
 }
 
-const createNote = async (req, res) => {
+const createBlog = async (req, res) => {
     try {
         const { title, content } = req.body;
-        const NewNote = new Note({
+        const newBlog = new Blog({
             title,
             content,
             user: req.user.id
         });
         
-        await NewNote.save();
+        await newBlog.save();
 
-        if(!NewNote) return res.status(400).json([{ message: 'Note not created', type: 'error' }]);
+        if(!newBlog) return res.status(400).json([{ message: 'Blog not created', type: 'error' }]);
 
-        res.json(NewNote);
+        res.json(newBlog);
     } catch (err) {
         console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
         res.status(500).send('Server Error');
     }
 }
 
-const updateNote = async (req, res) => {
+const updateBlog = async (req, res) => {
     try {
         const { title, content } = req.body;
-        const Note = await Note.findOneAndUpdate({ _id: req.params.id, user: req.user.id }, { title, content }, { new: true });
-        res.json(Note);
+        const blog = await Blog.findOneAndUpdate({ _id: req.params.id, user: req.user.id }, { title, content }, { new: true });
+        res.json(blog);
     } catch (err) {
         console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
         res.status(500).send('Server Error');
     }
 }
 
-const deleteNote = async (req, res) => {
+const deleteBlog = async (req, res) => {
     try {
-        const Note = await Note.findOneAndDelete({ _id: req.params.id, user: req.user.id });
+        const blog = await Blog.findOneAndDelete({ _id: req.params.id, user: req.user.id });
         res.json({
-            NoteId: req.params.id,
-            toasts: [{ message: 'Note deleted', type: 'success' }]
+            blogId: req.params.id,
+            toasts: [{ message: 'Blog deleted', type: 'success' }]
         });
     } catch (error) {
         console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
@@ -77,9 +77,9 @@ const deleteNote = async (req, res) => {
 }
 
 module.exports = {
-    deleteNote,
-    updateNote,
-    createNote,
-    getNotes,
-    getNoteById
+    deleteBlog,
+    updateBlog,
+    createBlog,
+    getBlogs,
+    getBlogById
 }

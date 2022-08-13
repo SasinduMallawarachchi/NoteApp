@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useNote } from '../middleware/contextHooks'
+import { useBlog } from '../middleware/contextHooks'
 import { toast } from 'react-toastify';
 import { truncateString } from '../middleware/utils';
 import {
@@ -15,17 +15,17 @@ import NoteCard from '../components/NoteCard'
 
 
 export default function NoteList() {
-    const {getNotes, toasts, clearErrors, Notes, clearCurrentNote} = useNote();
+    const {getBlogs, toasts, clearErrors, blogs, clearCurrentBlog} = useBlog();
     const navigate = useNavigate();
-    const [myNotes, setMyNotes] = useState([]);
+    const [myBlogs, setMyBlogs] = useState([]);
 
     useEffect(() => {
-        if(!Notes){
-            getNotes()
+        if(!blogs){
+            getBlogs()
         }
 
-        if(Notes){
-            setMyNotes(Notes)
+        if(blogs){
+            setMyBlogs(blogs)
         }
 
         if(toasts){
@@ -35,11 +35,11 @@ export default function NoteList() {
             clearErrors()
         }
 
-    },[toasts, clearErrors, Notes, getNotes])
+    },[toasts, clearErrors, blogs, getBlogs])
 
-    const onCreateNewNote = () => {
-        clearCurrentNote();
-        navigate('/NewNote')
+    const onCreateNewBlog = () => {
+        clearCurrentBlog();
+        navigate('/newblog')
     }
     return (
         <MainContainer>
@@ -47,14 +47,14 @@ export default function NoteList() {
                 <Grid container spacing={2}>
                     <Grid item xs={false} md={3}>
                         <List sx={{borderRadius: 5, mt: 3}}>
-                            {myNotes?.map(Note => (
+                            {myBlogs?.map(blog => (
                                 <Link
                                     style={{textDecoration: 'none'}}
-                                    to={`/Notes/${Note._id}`} key={Note._id}>
+                                    to={`/blogs/${blog._id}`} key={blog._id}>
                                     <ListItem>
-                                        <Tooltip title={Note.title} placement='right'>
+                                        <Tooltip title={blog.title} placement='right'>
                                             <ListItemText 
-                                                primary={truncateString(Note.title, 30)} 
+                                                primary={truncateString(blog.title, 30)} 
                                             />
                                         </Tooltip>
                                     </ListItem>
@@ -69,11 +69,11 @@ export default function NoteList() {
 
                     <Grid item xs={12} md={9}>
                         <Box sx={{display: 'flex', justifyContent: 'flex-end', mb: 2}}>
-                            <Button onClick={onCreateNewNote}>Create New Note</Button>
+                            <Button onClick={onCreateNewBlog}>Create New Note</Button>
                         </Box>
                         <Masonry columns={2}>
-                            {myNotes?.map(Note => (
-                                <NoteCard Note={Note} key={Note._id} />
+                            {myBlogs?.map(blog => (
+                                <NoteCard blog={blog} key={blog._id} />
                             ))}
                         </Masonry>
                     </Grid>

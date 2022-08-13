@@ -3,14 +3,14 @@ import axios from 'axios';
 import NoteReducer from './NoteReducer';
 import * as ActionTypes from '../ContextActions';
 
-export const NoteContext = createContext();
+export const BlogContext = createContext();
 
 export default function NoteState(props){
     const initialstate = {
-        Notes: null,
-        currentNote: null,
+        blogs: null,
+        currentBlog: null,
         toasts: null,
-        NoteCreated: false
+        blogCreated: false
     }
 
     const [state, dispatch] = useReducer(NoteReducer, initialstate);
@@ -24,80 +24,80 @@ export default function NoteState(props){
 
     // #region --------------[ Actions ]--------------
 
-    const getNotes = async () => {
+    const getBlogs = async () => {
         try {
-            const res = await axios.get('/api/Notes', config);
+            const res = await axios.get('/api/blogs', config);
             dispatch({
-                type: ActionTypes.GET_NoteS_SUCCESS,
+                type: ActionTypes.GET_BLOGS_SUCCESS,
                 payload: res.data
             })
         } catch (err) {
             console.log(err.response.data);
             dispatch({
-                type: ActionTypes.Note_FAIL,
+                type: ActionTypes.BLOG_FAIL,
                 payload: err.response.data,
             })
         }
     }
 
-    const getNoteById = async (NoteId) => {
+    const getBlogById = async (blogId) => {
         try {
             dispatch({
-                type: ActionTypes.GET_Note_BY_ID,
-                payload: NoteId
+                type: ActionTypes.GET_BLOG_BY_ID,
+                payload: blogId
             })
         } catch (err) {
             console.log(err.response.data);
             dispatch({
-                type: ActionTypes.Note_FAIL,
+                type: ActionTypes.BLOG_FAIL,
                 payload: err.response.data,
             })
         }
     }
 
-    const createNote = async (NoteData) => {
+    const createBlog = async (blogData) => {
         try {
-            const res = await axios.post('/api/Notes', NoteData, config);
+            const res = await axios.post('/api/blogs', blogData, config);
             dispatch({
-                type: ActionTypes.NEW_Note_SUCCESS,
+                type: ActionTypes.NEW_BLOG_SUCCESS,
                 payload: res.data
             })
         } catch (err) {
             console.log(err.response.data);
             dispatch({
-                type: ActionTypes.Note_FAIL,
+                type: ActionTypes.BLOG_FAIL,
                 payload: err.response.data,
             })
         }
     }
 
-    const updateNote = async (NoteData) => {
+    const updateBlog = async (blogData) => {
         try {
-            const res = await axios.put(`/api/Notes/${NoteData._id}`, NoteData, config);
+            const res = await axios.put(`/api/blogs/${blogData._id}`, blogData, config);
             dispatch({
-                type: ActionTypes.UPDATE_Note,
+                type: ActionTypes.UPDATE_BLOG,
                 payload: res.data
             })
         } catch (err) {
             console.log(err.response.data);
             dispatch({
-                type: ActionTypes.Note_FAIL,
+                type: ActionTypes.BLOG_FAIL,
                 payload: err.response.data,
             })
         }
     }
 
-    const deleteNote = async (NoteId) => {
+    const deleteBlog = async (blogId) => {
         try {
-            const res = await axios.delete(`/api/Notes/${NoteId}`, config);
+            const res = await axios.delete(`/api/blogs/${blogId}`, config);
             dispatch({
-                type: ActionTypes.Note_DELETE,
+                type: ActionTypes.BLOG_DELETE,
                 payload: res.data
             })
         } catch (err) {
             console.log(err.response.data);
             dispatch({
-                type: ActionTypes.Note_FAIL,
+                type: ActionTypes.BLOG_FAIL,
                 payload: err.response.data,
             })
         }
@@ -109,36 +109,36 @@ export default function NoteState(props){
         })
     }
 
-    const clearNotes = async () => {
+    const clearBlogs = async () => {
         dispatch({
-            type: ActionTypes.CLEAR_NoteS
+            type: ActionTypes.CLEAR_BLOGS
         })
     }
 
-    const clearCurrentNote = () =>{
-        dispatch({type: ActionTypes.CLEAR_CURRENT_Note})
+    const clearCurrentBlog = () =>{
+        dispatch({type: ActionTypes.CLEAR_CURRENT_BLOG})
     }
 
     // #endregion
 
     return (
-        <NoteContext.Provider value={{
-            Notes: state.Notes,
-            currentNote: state.currentNote,
+        <BlogContext.Provider value={{
+            blogs: state.blogs,
+            currentBlog: state.currentBlog,
             toasts: state.toasts,
-            NoteCreated: state.NoteCreated,
+            blogCreated: state.blogCreated,
             
-            clearCurrentNote,
-            getNotes,
-            getNoteById,
-            createNote,
-            updateNote,
-            deleteNote,
+            clearCurrentBlog,
+            getBlogs,
+            getBlogById,
+            createBlog,
+            updateBlog,
+            deleteBlog,
             clearErrors,
-            clearNotes
+            clearBlogs
 
         }}>
             {props.children}
-        </NoteContext.Provider>
+        </BlogContext.Provider>
     )
 }

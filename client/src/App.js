@@ -11,8 +11,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
-import NewNote from './pages/NewNote';
-//import EditNote from './pages/EditNote';
+import NewBlog from './pages/NewBlog';
+//import EditBlog from './pages/EditBlog';
 import PrivateRoute from './pages/PrivateRoute';
 // #endregion
 
@@ -39,16 +39,16 @@ function App() {
                         <Route path="/profile" element={<Profile />} />
                     </Route>
 
-                    <Route path="/Notes" element={<PrivateRoute />} >
-                        <Route path="/Notes" element={<NoteList />} />
+                    <Route path="/blogs" element={<PrivateRoute />} >
+                        <Route path="/blogs" element={<NoteList />} />
                     </Route>
 
-                    <Route path="/Notes/:id" element={<PrivateRoute />} >
-                        <Route path="/Notes/:id" element={<NoteDetail />} />
+                    <Route path="/blogs/:id" element={<PrivateRoute />} >
+                        <Route path="/blogs/:id" element={<NoteDetail />} />
                     </Route>
 
-                    <Route path="/NewNote" element={<PrivateRoute />} >
-                        <Route path="/NewNote" element={<NewNote />} />
+                    <Route path="/newblog" element={<PrivateRoute />} >
+                        <Route path="/newblog" element={<NewBlog />} />
                     </Route>
                 </Routes>
             </Router>

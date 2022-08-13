@@ -3,59 +3,59 @@ import * as ActionTypes from '../ContextActions'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
     switch (action.type) {
-        case ActionTypes.NEW_Note_SUCCESS:
-            let Notes = state.Notes ? state.Notes : [];
+        case ActionTypes.NEW_BLOG_SUCCESS:
+            let blogs = state.blogs ? state.blogs : [];
 
             return{
                 ...state,
-                NoteCreated: true,
-                currentNote: action.payload,
-                Notes: [...Notes, action.payload]
+                blogCreated: true,
+                currentBlog: action.payload,
+                blogs: [...blogs, action.payload]
             }
-        case ActionTypes.GET_NoteS_SUCCESS:
+        case ActionTypes.GET_BLOGS_SUCCESS:
             return{
                 ...state,
-                Notes: action.payload
+                blogs: action.payload
             }
-        case ActionTypes.Note_FAIL:
+        case ActionTypes.BLOG_FAIL:
             return{
                 ...state,
                 toasts: action.payload
             }
-        case ActionTypes.UPDATE_Note:
+        case ActionTypes.UPDATE_BLOG:
             return {
                 ...state,
-                currentNote: action.payload,
-                Notes: state.Notes.map(Note => Note._id === action.payload._id ? action.payload : Note)
+                currentBlog: action.payload,
+                blogs: state.blogs.map(blog => blog._id === action.payload._id ? action.payload : blog)
             }
-        case ActionTypes.Note_DELETE:
+        case ActionTypes.BLOG_DELETE:
             return {
                 ...state,
-                Notes: state.Notes.filter(Note => Note._id !== action.payload.NoteId),
+                blogs: state.blogs.filter(blog => blog._id !== action.payload.blogId),
                 toasts: action.payload.toasts
             }
-        case ActionTypes.GET_Note_BY_ID:
+        case ActionTypes.GET_BLOG_BY_ID:
             return {
                 ...state,
-                currentNote: state.Notes ? state.Notes.find(Note => Note._id === action.payload) : null
+                currentBlog: state.blogs ? state.blogs.find(blog => blog._id === action.payload) : null
             }
         case ActionTypes.CLEAR_ERRORS:
             return {
                 ...state,
                 toasts: null
             }
-        case ActionTypes.CLEAR_CURRENT_Note:
+        case ActionTypes.CLEAR_CURRENT_BLOG:
             return {
                 ...state,
-                currentNote: null,
-                NoteCreated: false
+                currentBlog: null,
+                blogCreated: false
             }
-        case ActionTypes.CLEAR_NoteS:
+        case ActionTypes.CLEAR_BLOGS:
             return {
                 ...state,
-                Notes: null,
-                currentNote: null,
-                NoteCreated: false,
+                blogs: null,
+                currentBlog: null,
+                blogCreated: false,
                 toasts: null
             }
         default:

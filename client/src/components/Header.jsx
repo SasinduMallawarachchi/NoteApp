@@ -12,7 +12,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import {useNavigate} from 'react-router-dom';
 
-import {useAuth, useNote} from '../middleware/contextHooks'
+import {useAuth, useBlog} from '../middleware/contextHooks'
 
 // #region --------------( ICONS )--------------
 import BookIcon from '@mui/icons-material/Book';
@@ -20,13 +20,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 // #endregion
 
-const authenticated = ['Notes', 'Profile']
+const authenticated = ['Blogs', 'Profile']
 
 
 
 export default function PrimarySearchAppBar() {
     const {logoutUser} = useAuth()
-    const {clearNotes} = useNote()
+    const {clearBlogs} = useBlog()
 
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -56,7 +56,7 @@ export default function PrimarySearchAppBar() {
         handleMenuClose();
         logoutUser();
         navigate('/login');
-        clearNotes()
+        clearBlogs()
     }
 
     const menuId = 'primary-search-account-menu';
@@ -97,11 +97,11 @@ export default function PrimarySearchAppBar() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem onClick={() => navigate('/Notes')}>
+            <MenuItem onClick={() => navigate('/blogs')}>
                 <IconButton size="large" color="inherit">
                     <BookIcon />
                 </IconButton>
-                <p>Notes</p>
+                <p>Blogs</p>
             </MenuItem>
             <MenuItem onClick={() => navigate('/profile')}>
                 <IconButton
@@ -135,7 +135,7 @@ export default function PrimarySearchAppBar() {
                         component="div"
                         sx={{color: 'white',  display: { xs: 'none', sm: 'block' } }}
                     >
-                        Notes
+                        Note App
                     </Typography>
                 
                 <Box sx={{ flexGrow: 1 }} />

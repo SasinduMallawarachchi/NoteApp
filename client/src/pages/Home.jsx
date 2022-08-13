@@ -28,7 +28,7 @@ export default function Home() {
     const [showPassword, setShowPassword] = useState(false)
 
     useEffect(() => {
-        if(isAuthenticated) navigate('/Notes')
+        if(isAuthenticated) navigate('/blogs')
 
         if(toasts){
             toasts.forEach(ele => {
